@@ -2,6 +2,7 @@ from ast import arg
 # from the scratch
 
 import os
+import subprocess
 from dotenv import load_dotenv, dotenv_values
 import argparse # help to use the flag in input such ass '--help'
 import requests # sends http requests online
@@ -15,6 +16,7 @@ load_dotenv()
 
 # Google Search function
 def google_dork(query):
+    print("[+] Results from Google Search API")
     url = f"https://www.googleapis.com/customsearch/v1" # this url gets hit for api search query
     params = {
         "key": os.getenv("customSearchAPI"),
@@ -34,6 +36,27 @@ def google_dork(query):
         print("Error Fetching search results: ", response.json())
 
 
+def find_social(username):
+    print("\n[+] Searching social media for: ", username)
+    social_sites = {
+        "Twitter" : f"https://twittter.com/{username}",
+        "Instagram" : f"https://instagram.com/{username}",
+        "Github" : f"https://github.com/{username}",
+        "Reddit" : f"https://reddit.com/{username}"
+    } # creating dictionary with sites and their links
+
+    for site, url in social_sites.items():
+        try:
+            response = requests.get(url, timeout=5)
+            if response.status_code == 200:
+                print(f"[-] Found username on {site}: {url}")
+            else:
+                print(f"[-] User not found on {site}")
+        
+        except requests.exceptions.RequestException:
+            print(f"[-] Could not check {site}")
+
+
 # using parse on input
 def parse_input(query):
     # spliting query into list of arguments
@@ -41,14 +64,15 @@ def parse_input(query):
     # creating an argument parser object
     parser = argparse.ArgumentParser(description="Process some inputs.")
 
-    # adding arrguments
+    # adding arguments
     parser.add_argument("-q", "-query", type=str, dest='query',nargs="+", action = 'append', help="Your Query") # nargs is there to make sure that multile words and multiple querries can come action = append ensures that it calls -q everytime the querry got it
     parser.add_argument("-s", "-site", type=str, dest='site', help="Specific Site", default=None)
     parser.add_argument("-fl", "-file-type", type=str, dest='file_type', help="File Type", default=None)
     parser.add_argument("-iu", "-inurl", type=str, dest='inurl', help="URL part", default=None)
+    parser.add_argument("-u", "-username", type=str, dest='username', help="Username", default= None)
 
     try:
-        # parse the arggument from the user input
+        # parse the argument from the user input
         args = parser.parse_args(args_list)
         return args
     except SystemExit:
@@ -58,7 +82,7 @@ def parse_input(query):
 
 
 
-# constructing querry
+# constructing query
 def construct_query(args):
     ConQuery = []
     if args is not None:
@@ -97,6 +121,9 @@ def main():
         args = parse_input(OgQuery)
         newQuery = construct_query(args)
 
+        if args.username:
+            find_social(args.username)
+        
         results = google_dork(newQuery)
 
         if results:
