@@ -10,4 +10,4 @@ This is my College Project inspired from [OSINT](https://osintframework.com/), I
 
 ## My Idea behind it.
 
-Gathering Info through footprints, which tools automatically arranges in order to get the perfect result.
+Gathering Info through footprints, which tools automatically arranges in order to get the perfect result, I'm happy to get advise over this.
