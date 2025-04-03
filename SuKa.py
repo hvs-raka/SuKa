@@ -1,5 +1,4 @@
 from ast import arg
-# from the scratch
 
 import os
 import subprocess
