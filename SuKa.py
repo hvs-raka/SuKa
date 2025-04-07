@@ -39,10 +39,30 @@ def google_dork(query):
 def find_social(username):
     print("\n[+] Searching social media for: ", username)
     social_sites = {
-        "Twitter" : f"https://twittter.com/{username}",
-        "Instagram" : f"https://instagram.com/{username}",
-        "Github" : f"https://github.com/{username}",
-        "Reddit" : f"https://reddit.com/{username}"
+        "Twitter": f"https://twitter.com/{username}",
+        "Instagram": f"https://www.instagram.com/{username}",
+        "GitHub": f"https://github.com/{username}",
+        "Reddit": f"https://www.reddit.com/user/{username}",
+        "TikTok": f"https://www.tiktok.com/@{username}",
+        "Pinterest": f"https://www.pinterest.com/{username}",
+        "YouTube": f"https://www.youtube.com/@{username}",
+        "Facebook": f"https://www.facebook.com/{username}",
+        "Snapchat": f"https://www.snapchat.com/add/{username}",
+        "Medium": f"https://medium.com/@{username}",
+        "Dev.to": f"https://dev.to/{username}",
+        "About.me": f"https://about.me/{username}",
+        "ProductHunt": f"https://www.producthunt.com/@{username}",
+        "500px": f"https://500px.com/{username}",
+        "SoundCloud": f"https://soundcloud.com/{username}",
+        "Vimeo": f"https://vimeo.com/{username}",
+        "Twitch": f"https://www.twitch.tv/{username}",
+        "Flickr": f"https://www.flickr.com/people/{username}",
+        "Replit": f"https://replit.com/@{username}",
+        "Kaggle": f"https://www.kaggle.com/{username}",
+        "Steam": f"https://steamcommunity.com/id/{username}",
+        "GitLab": f"https://gitlab.com/{username}",
+        "BuyMeACoffee": f"https://www.buymeacoffee.com/{username}",
+        "CodePen": f"https://codepen.io/{username}"
     } # creating dictionary with sites and their links
 
     for site, url in social_sites.items():
