@@ -1,10 +1,11 @@
-from ast import arg
+#from ast import arg
 
 import os
-import subprocess
+#import subprocess
 from dotenv import load_dotenv, dotenv_values
 import argparse # help to use the flag in input such ass '--help'
 import requests # sends http requests online
+from serpapi import GoogleSearch
 # from google.colab import userdata # importing keys and secrets consist of APIs ( no need now it's in vscode)
 
 # APIs and other credentials
@@ -56,6 +57,32 @@ def find_social(username):
             print(f"[-] Could not check {site}")
 
 
+# yandex image search 
+def yandex_image_search(image_url):
+    print("\n[+] Performing Yandex image search..")
+    params = {
+        "engine" : "yandex_image",
+        "url": image_url,
+        "api_key": os.getenv("serpAPI")
+    }
+
+    try:
+        search = GoogleSearch(params)
+        results = search.get_dict()
+
+        if "images_results" in results:
+            print("[+] Found Similar Images: \n")
+            for i, image in enumerate(results["images_results"],1):
+                print(f"{i}. Title: {image.get('title')}")
+                print(f"    Image URL: {image.get('original')}")
+                print(f"    Source: {image.get('link')}\n")
+        else:
+            print("[-] No similar image found or something went wrong")
+
+    except Exception as e:
+        print(f"[-] Error during image Search: {e}")
+
+
 # using parse on input
 def parse_input(query):
     # spliting query into list of arguments
@@ -69,6 +96,7 @@ def parse_input(query):
     parser.add_argument("-fl", "-file-type", type=str, dest='file_type', help="File Type", default=None)
     parser.add_argument("-iu", "-inurl", type=str, dest='inurl', help="URL part", default=None)
     parser.add_argument("-u", "-username", type=str, dest='username', help="Username", default= None)
+    parser.add_argument("-img", "-image", type=str, dest = 'image', help="Public image URL to perform reverse image search via Yandex (SerpAPI)")
 
     try:
         # parse the argument from the user input
@@ -122,6 +150,8 @@ def main():
 
         if args.username:
             find_social(args.username)
+        elif args.image:
+            yandex_image_search(args.image)
         
         results = google_dork(newQuery)
 
